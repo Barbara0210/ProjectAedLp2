@@ -1,0 +1,12 @@
+=== Relatório Global ===
+
+--- Lista de Usuários ---
+User ID: 1, User Name: João
+User ID: 2, User Name: Maria
+
+--- Lista de Estações ---
+Station Id: 1, Station Name: Estação 1
+Station Id: 2, Station Name: Estação 2
+
+--- Lista de Conexões ---
+Connection ID: 1, Station 1: Estação 1, Station 2: Estação 2, Schedule: 1
