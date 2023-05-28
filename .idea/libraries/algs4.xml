@@ -2,6 +2,7 @@
   <library name="algs4">
     <CLASSES>
       <root url="jar://$USER_HOME$/Downloads/algs4.jar!/" />
+      <root url="file://$USER_HOME$/OneDrive/Documentos/openjfx-20.0.1_windows-x64_bin-sdk" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
