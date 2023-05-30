@@ -1,29 +1,20 @@
 import java.util.*;
 import java.io.*;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+
 import edu.princeton.cs.algs4.RedBlackBST;
 import java.util.stream.Collectors;
 
 import edu.princeton.cs.algs4.EdgeWeightedDigraph;
 
-/**
- * A classe DataBase representa um banco de dados para armazenar e gerenciar vários dados relacionados a um sistema de transporte.
- * Inclui funcionalidades para gerenciar usuários, viagens, rotas, estações, conexões e horários.
- */
 public class DataBase {
+  private RedBlackBST<Integer, User> users;
+  private RedBlackBST<Integer, List<Trip>> userTrips;
 
-  private RedBlackBST<Integer, User> users; // Armazena os usuários com seus IDs como chaves.
-  private RedBlackBST<Integer, List<Trip>> userTrips; // Armazena as viagens dos usuários com seus IDs como chaves.
+  private HashMap<Integer, Route> routes; 
+  private HashMap<Integer, Station> stations;
+  private HashMap<Integer, Connection> connections;
+  private HashMap<Integer, Schedule> schedules;
 
-  private HashMap<Integer, Route> routes; // Armazena as rotas com seus IDs como chaves.
-  private HashMap<Integer, Station> stations; // Armazena as estações com seus IDs como chaves.
-  private HashMap<Integer, Connection> connections; // Armazena as conexões com seus IDs como chaves.
-  private HashMap<Integer, Schedule> schedules; // Armazena os horários com seus IDs como chaves.
-
-  /**
-   * Construtor da classe DataBase. Inicializa as estruturas de dados utilizadas.
-   */
   public DataBase() {
     this.users = new RedBlackBST<>();
     this.routes = new HashMap<>();
@@ -31,121 +22,62 @@ public class DataBase {
     this.connections = new HashMap<>();
     this.schedules = new HashMap<>();
     this.userTrips = new RedBlackBST<>();
-  }
 
-  /**
-   * Obtém a árvore binária de pesquisa vermelho-preto que armazena os usuários.
-   * @return A árvore binária de pesquisa vermelho-preto dos usuários.
-   */
+  }
   public RedBlackBST<Integer, User> getUsers() {
     return users;
   }
 
-  /**
-   * Obtém a árvore binária de pesquisa vermelho-preto que armazena as viagens dos usuários.
-   * @return A árvore binária de pesquisa vermelho-preto das viagens dos usuários.
-   */
   public RedBlackBST<Integer, List<Trip>> getUserTrips() {
     return this.userTrips;
   }
 
-  /**
-   * Define a árvore binária de pesquisa vermelho-preto que armazena os usuários.
-   * @param users A árvore binária de pesquisa vermelho-preto dos usuários.
-   */
   public void setUsers(RedBlackBST<Integer, User> users) {
     this.users = users;
   }
 
-  /**
-   * Define a árvore binária de pesquisa vermelho-preto que armazena as viagens dos usuários.
-   * @param userTrips A árvore binária de pesquisa vermelho-preto das viagens dos usuários.
-   */
   public void setUserTrips(RedBlackBST<Integer, List<Trip>> userTrips) {
     this.userTrips = userTrips;
   }
 
-  /**
-   * Obtém o mapa que armazena as rotas.
-   * @return O mapa das rotas.
-   */
   public HashMap<Integer, Route> getRoutes() {
     return routes;
   }
 
-  /**
-   * Define o mapa que armazena as rotas.
-   * @param routes O mapa das rotas.
-   */
   public void setRoutes(HashMap<Integer, Route> routes) {
     this.routes = routes;
   }
 
-  /**
-   * Obtém o mapa que armazena as estações.
-   * @return O mapa das estações.
-   */
   public HashMap<Integer, Station> getStations() {
     return stations;
   }
 
-  /**
-   * Define o mapa que armazena as estações.
-   * @param stations O mapa das estações.
-   */
   public void setStations(HashMap<Integer, Station> stations) {
     this.stations = stations;
   }
 
-  /**
-   * Obtém o mapa que armazena as conexões.
-   * @return O mapa das conexões.
-   */
   public HashMap<Integer, Connection> getConnections() {
     return connections;
   }
 
-  /**
-   * Define o mapa que armazena as conexões.
-   * @param connections O mapa das conexões.
-   */
   public void setConnections(HashMap<Integer, Connection> connections) {
     this.connections = connections;
   }
 
-  /**
-   * Obtém o mapa que armazena os horários.
-   * @return O mapa dos horários.
-   */
   public HashMap<Integer, Schedule> getSchedules() {
     return schedules;
   }
 
-  /**
-   * Define o mapa que armazena os horários.
-   * @param schedules O mapa dos horários.
-   */
   public void setSchedules(HashMap<Integer, Schedule> schedules) {
     this.schedules = schedules;
   }
+  // Inserir, remover, editar e listar métodos para cada classe...
 
-  // Aqui devem ser inseridos, removidos, editados e listados métodos para cada classe...
 
-
-  /**
-   * Insere um usuário no banco de dados.
-   * @param user O usuário a ser inserido.
-   */
   public void insertUser(User user) {
     users.put(user.getUserId(), user);
   }
 
-  /**
-   * Edita o nome de um usuário.
-   * @param userId O ID do usuário a ser editado.
-   * @param newUserName O novo nome do usuário.
-   * @return O usuário após a edição.
-   */
   public User editUser(Integer userId, String newUserName) {
     User user = users.get(userId);
     if(user != null) {
@@ -154,11 +86,6 @@ public class DataBase {
     return user;
   }
 
-  /**
-   * Remove um usuário do banco de dados.
-   * @param userId O ID do usuário a ser removido.
-   * @throws IOException Se ocorrer um erro de E/S durante a remoção.
-   */
   public void removeUser(Integer userId) throws IOException {
     User user = users.get(userId);
     if (user != null) {
@@ -173,11 +100,6 @@ public class DataBase {
       users.delete(userId);
     }
   }
-
-  /**
-   * Lista todos os usuários do banco de dados.
-   * @return Uma lista de usuários.
-   */
   public ArrayList<User> listUsers() {
     ArrayList<User> userList = new ArrayList<>();
     for (Integer key : users.keys()) {
@@ -186,19 +108,15 @@ public class DataBase {
     return userList;
   }
 
-  /**
-   * Insere uma rota no banco de dados.
-   * @param route A rota a ser inserida.
-   */
+
+
+
+
   public void insertRoute(Route route) {
     routes.put(route.getRouteId(), route);
   }
 
-  /**
-   * Remove uma rota do banco de dados.
-   * @param routeId O ID da rota a ser removida.
-   * @throws IOException Se ocorrer um erro de E/S durante a remoção.
-   */
+
   public void removeRoute(Integer routeId) throws IOException {
     Route route = routes.get(routeId);
     if (route != null) {
@@ -206,36 +124,18 @@ public class DataBase {
       routes.remove(routeId);
     }
   }
-
-  /**
-   * Edita uma rota existente no banco de dados.
-   * @param route A rota editada.
-   */
   public void editRoute(Route route) {
     routes.put(route.getRouteId(), route);
   }
 
-  /**
-   * Lista todas as rotas do banco de dados.
-   * @return Uma lista de rotas.
-   */
   public List<Route> listRoutes() {
     return new ArrayList<>(routes.values());
   }
 
-  /**
-   * Insere uma estação no banco de dados.
-   * @param station A estação a ser inserida.
-   */
   public void insertStation(Station station) {
     stations.put(station.getStationId(), station);
   }
 
-  /**
-   * Remove uma estação do banco de dados.
-   * @param stationId O ID da estação a ser removida.
-   * @throws IOException Se ocorrer um erro de E/S durante a remoção.
-   */
   public void removeStation(Integer stationId) throws IOException {
     Station station = stations.get(stationId);
     if (station != null) {
@@ -243,36 +143,18 @@ public class DataBase {
       stations.remove(stationId);
     }
   }
-
-  /**
-   * Edita uma estação existente no banco de dados.
-   * @param station A estação editada.
-   */
   public void editStation(Station station) {
     stations.put(station.getStationId(), station);
   }
 
-  /**
-   * Lista todas as estações do banco de dados.
-   * @return Uma lista de estações.
-   */
   public List<Station> listStations() {
     return new ArrayList<>(stations.values());
   }
 
-  /**
-   * Insere uma conexão no banco de dados.
-   * @param connection A conexão a ser inserida.
-   */
   public void insertConnection(Connection connection) {
     connections.put(connection.getConnectionId(), connection);
   }
 
-  /**
-   * Remove uma conexão do banco de dados.
-   * @param connectionId O ID da conexão a ser removida.
-   * @throws IOException Se ocorrer um erro de E/S durante a remoção.
-   */
   public void removeConnection(Integer connectionId) throws IOException {
     Connection connection = connections.get(connectionId);
     if (connection != null) {
@@ -280,36 +162,18 @@ public class DataBase {
       connections.remove(connectionId);
     }
   }
-
-  /**
-   * Edita uma conexão existente no banco de dados.
-   * @param connection A conexão editada.
-   */
   public void editConnection(Connection connection) {
     connections.put(connection.getConnectionId(), connection);
   }
 
-  /**
-   * Lista todas as conexões do banco de dados.
-   * @return Uma lista de conexões.
-   */
   public List<Connection> listConnections() {
     return new ArrayList<>(connections.values());
   }
 
-  /**
-   * Insere um horário no banco de dados.
-   * @param schedule O horário a ser inserido.
-   */
   public void insertSchedule(Schedule schedule) {
     schedules.put(schedule.getScheduleId(), schedule);
   }
 
-  /**
-   * Remove um horário do banco de dados.
-   * @param scheduleId O ID do horário a ser removido.
-   * @throws IOException Se ocorrer um erro de E/S durante a remoção.
-   */
   public void removeSchedule(Integer scheduleId) throws IOException {
     Schedule schedule = schedules.get(scheduleId);
     if (schedule != null) {
@@ -317,35 +181,18 @@ public class DataBase {
       schedules.remove(scheduleId);
     }
   }
-
-  /**
-   * Edita um horário existente no banco de dados.
-   * @param schedule O horário editado.
-   */
   public void editSchedule(Schedule schedule) {
     schedules.put(schedule.getScheduleId(), schedule);
   }
 
-  /**
-   * Lista todos os horários do banco de dados.
-   * @return Uma lista de horários.
-   */
   public List<Schedule> listSchedules() {
     return new ArrayList<>(schedules.values());
   }
-
-  /**
-   * Insere uma viagem de um usuário no banco de dados.
-   * @param userId O ID do usuário.
-   * @param trip A viagem a ser inserida.
-   * @param startDate A data de início da viagem.
-   * @param endDate A data de fim da viagem.
-   */
   public void insertUserTrip(Integer userId, Trip trip, String startDate, String endDate) {
     User user = users.get(userId);
     if (user != null) {
-      trip.setStartDate(startDate);
-      trip.setEndDate(endDate);
+      trip.setStartDate(startDate);  // define a data de início da viagem
+      trip.setEndDate(endDate);  // define a data de fim da viagem
       user.addTrip(trip);
       userTrips.put(userId, user.getTrips());
     } else {
@@ -353,21 +200,13 @@ public class DataBase {
     }
   }
 
-  /**
-   * Lista todas as viagens de um usuário.
-   * @param userId O ID do usuário.
-   * @return Uma lista de viagens do usuário.
-   */
+
+
+
   public List<Trip> listUserTrips(Integer userId) {
     return this.userTrips.get(userId);
   }
 
-  /**
-   * Edita uma viagem de um usuário.
-   * @param userId O ID do usuário.
-   * @param tripIndex O índice da viagem a ser editada.
-   * @param newTrip A nova viagem.
-   */
   public void editUserTrip(Integer userId, Integer tripIndex, Trip newTrip) {
     List<Trip> trips = this.userTrips.get(userId);
     if (trips != null && tripIndex >= 0 && tripIndex < trips.size()) {
@@ -376,12 +215,6 @@ public class DataBase {
     }
   }
 
-  /**
-   * Remove uma viagem de um usuário.
-   * @param userId O ID do usuário.
-   * @param tripId O ID da viagem a ser removida.
-   * @throws IOException Se ocorrer um erro de E/S durante a remoção.
-   */
   public void removeUserTrip(Integer userId, Integer tripId) throws IOException {
     User user = users.get(userId);
     if (user != null) {
@@ -394,133 +227,74 @@ public class DataBase {
         }
       }
       userTrips.put(userId, trips);
-    }
-  }
-  /**
-   * Arquiva os dados fornecidos em um arquivo.
-   *
-   * @param filename O nome do arquivo onde os dados serão arquivados.
-   * @param data     Os dados a serem arquivados.
-   * @throws IOException Se ocorrer um erro de E/S durante a gravação do arquivo.
-   */
+    }}
   private void archiveData(String filename, String data) throws IOException {
     PrintWriter out = new PrintWriter(new FileWriter(filename, true));
     out.println(data);
     out.close();
   }
-  /**
-   * Obtém todas as rotas planejadas e usadas por um usuário em um determinado período.
-   *
-   * @param userId     O ID do usuário.
-   * @param startDate  A data de início do período.
-   * @param endDate    A data de término do período.
-   * @return Uma lista de rotas usadas pelo usuário no período especificado.
-   */
-  // a) Todas as rotas planeadas e usadas por um User num dado período;
+
+  // a) Todas as rotas planeadas e usadas por um User num dado período:
   public List<Route> getUserRoutesInPeriod(Integer userId, String startDate, String endDate) {
     List<Trip> trips = this.userTrips.get(userId);
     List<Route> result = new ArrayList<>();
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    LocalDate start = LocalDate.parse(startDate, formatter);
-    LocalDate end = LocalDate.parse(endDate, formatter);
     if(trips != null) {
       for(Trip trip: trips){
-        LocalDate tripStart = LocalDate.parse(trip.getStartDate(), formatter);
-        LocalDate tripEnd = LocalDate.parse(trip.getEndDate(), formatter);
-        if((tripStart.isAfter(start) || tripStart.isEqual(start)) &&
-                (tripEnd.isBefore(end) || tripEnd.isEqual(end))) {
-          result.add(trip.getRoute());
+        for(Connection connection: trip.getRoute().getConnections()){
+          if(isWithinPeriod(connection, startDate, endDate)){
+            result.add(trip.getRoute());
+          }
         }
       }
     }
     return result;
   }
-  /**
-   * Obtém todas as estações que não foram visitadas/usadas por usuários em um determinado período.
-   *
-   * @param startDate A data de início do período.
-   * @param endDate   A data de término do período.
-   * @return Uma lista de estações não utilizadas no período especificado.
-   */
-  // b) Todas as estações que não foram visitadas/usadas por usuários num dado período;
+
+  // b) Todas as Stations que não foram visitados/usados por Users, num dado período:
   public List<Station> getUnusedStationsInPeriod(String startDate, String endDate) {
-    List<Station> usedStations = new ArrayList<>();
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    LocalDate start = LocalDate.parse(startDate, formatter);
-    LocalDate end = LocalDate.parse(endDate, formatter);
+    ArrayList<Station> usedStations = new ArrayList<>();
     for (Integer userId : userTrips.keys()){
       List<Trip> trips = userTrips.get(userId);
       for(Trip trip: trips){
-        LocalDate tripStart = LocalDate.parse(trip.getStartDate(), formatter);
-        LocalDate tripEnd = LocalDate.parse(trip.getEndDate(), formatter);
-        if((tripStart.isAfter(start) || tripStart.isEqual(start)) &&
-                (tripEnd.isBefore(end) || tripEnd.isEqual(end))) {
-          for(Connection connection: trip.getRoute().getConnections()){
+        for(Connection connection: trip.getRoute().getConnections()){
+          if(isWithinPeriod(connection, startDate, endDate)){
             usedStations.add(connection.getStation1());
             usedStations.add(connection.getStation2());
           }
         }
       }
     }
-    List<Station> result = new ArrayList<>(stations.values());
+    ArrayList<Station> result = new ArrayList<>(stations.values());
     result.removeAll(usedStations);
     return result;
   }
-  /**
-   * Obtém todos os usuários que já utilizaram uma rota que passa por determinadas estações em um dado período.
-   *
-   * @param targetStations As estações alvo.
-   * @param startDate      A data de início do período.
-   * @param endDate        A data de término do período.
-   * @return Uma lista de usuários que utilizaram as rotas contendo as estações alvo no período especificado.
-   */
-  // c) Todos os usuários que já utilizaram uma rota que passa por determinadas estações num dado período;
+
+  // c) Todos os User que já usaram uma rota que passa por determinadas Stations num dado período:
   public List<User> getUsersByStationsInPeriod(List<Station> targetStations, String startDate, String endDate) {
     List<User> result = new ArrayList<>();
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    LocalDate start = LocalDate.parse(startDate, formatter);
-    LocalDate end = LocalDate.parse(endDate, formatter);
-    for (Integer userId : userTrips.keys()){
+    for(Integer userId: userTrips.keys()){
       List<Trip> trips = userTrips.get(userId);
       for(Trip trip: trips){
-        LocalDate tripStart = LocalDate.parse(trip.getStartDate(), formatter);
-        LocalDate tripEnd = LocalDate.parse(trip.getEndDate(), formatter);
-        if((tripStart.isAfter(start) || tripStart.isEqual(start)) &&
-                (tripEnd.isBefore(end) || tripEnd.isEqual(end))) {
-          for(Connection connection: trip.getRoute().getConnections()){
-            if(targetStations.contains(connection.getStation1()) || targetStations.contains(connection.getStation2())) {
-              result.add(users.get(userId));
-              break;
-            }
+        for(Connection connection: trip.getRoute().getConnections()){
+          if(isWithinPeriod(connection, startDate, endDate) &&
+                  routeContainsStations(trip.getRoute(), targetStations)){
+            result.add(trip.getUser());
           }
         }
       }
     }
     return result;
   }
-  /**
-   * Obtém os top-3 usuários que visitaram/usaram o maior número de estações em um dado período.
-   *
-   * @param startDate A data de início do período.
-   * @param endDate   A data de término do período.
-   * @return Uma lista dos top-3 usuários com o maior número de estações visitadas/usadas no período especificado.
-   */
-  // d) Top-3 dos usuários que visitaram/usaram o maior número de estações num dado período;
+
+  // d) Top-3 dos Users que visitaram/usaram o maior número de stations num dado período:
   public List<User> getTopUsersByStationCountInPeriod(String startDate, String endDate) {
     HashMap<User, Integer> userStationCount = new HashMap<>();
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    LocalDate start = LocalDate.parse(startDate, formatter);
-    LocalDate end = LocalDate.parse(endDate, formatter);
-    for (Integer userId : userTrips.keys()){
+    for(Integer userId: userTrips.keys()){
       List<Trip> trips = userTrips.get(userId);
       for(Trip trip: trips){
-        LocalDate tripStart = LocalDate.parse(trip.getStartDate(), formatter);
-        LocalDate tripEnd = LocalDate.parse(trip.getEndDate(), formatter);
-        if((tripStart.isAfter(start) || tripStart.isEqual(start)) &&
-                (tripEnd.isBefore(end) || tripEnd.isEqual(end))) {
-          userStationCount.putIfAbsent(users.get(userId), 0);
-          for(Connection connection: trip.getRoute().getConnections()){
-            userStationCount.put(users.get(userId), userStationCount.get(users.get(userId)) + 2);
+        for(Connection connection: trip.getRoute().getConnections()){
+          if(isWithinPeriod(connection, startDate, endDate)){
+            userStationCount.put(trip.getUser(), userStationCount.getOrDefault(trip.getUser(), 0) + trip.getRoute().getConnections().size());
           }
         }
       }
@@ -531,48 +305,25 @@ public class DataBase {
             .map(Map.Entry::getKey)
             .collect(Collectors.toList());
   }
-  /**
-   * Obtém as rotas entre duas estações especificadas.
-   *
-   * @param station1 A primeira estação.
-   * @param station2 A segunda estação.
-   * @return Uma lista de rotas que conectam as duas estações especificadas.
-   */
-  // e) Os horários de ligação entre dois terminais de duas localizações indicadas (ex. Porto, Paris);
-  public List<Route> getRoutesBetweenStations(Station station1, Station station2) {
+
+  // e) Todas as rotas usadas entre dois terminais (Estações):
+  public List<Route> getRoutesBetweenStations(Integer stationId1, Integer stationId2) {
     List<Route> result = new ArrayList<>();
-    for (Route route : routes.values()){
-      for(Connection connection: route.getConnections()){
-        if((connection.getStation1().equals(station1) && connection.getStation2().equals(station2)) ||
-                (connection.getStation1().equals(station2) && connection.getStation2().equals(station1))) {
-          result.add(route);
-          break; // para evitar adicionar a mesma rota mais de uma vez se houver várias conexões correspondentes
-        }
+    for(Route route: routes.values()){
+      if(routeHasStations(route, stationId1, stationId2)){
+        result.add(route);
       }
     }
     return result;
   }
+
   // Funções auxiliares
-  /**
-   * Verifica se uma conexão está dentro de um determinado período.
-   *
-   * @param connection A conexão a ser verificada.
-   * @param startDate  A data de início do período.
-   * @param endDate    A data de término do período.
-   * @return true se a conexão estiver dentro do período, caso contrário, false.
-   */
   private boolean isWithinPeriod(Connection connection, String startDate, String endDate) {
     String scheduleStartTime = connection.getSchedule().getStartTime();
     String scheduleEndTime = connection.getSchedule().getEndTime();
     return scheduleStartTime.compareTo(startDate) >= 0 && scheduleEndTime.compareTo(endDate) <= 0;
   }
-  /**
-   * Verifica se uma rota contém todas as estações alvo.
-   *
-   * @param route          A rota a ser verificada.
-   * @param targetStations As estações alvo.
-   * @return true se a rota contiver todas as estações alvo, caso contrário, false.
-   */
+
   private boolean routeContainsStations(Route route, List<Station> targetStations) {
     List<Station> routeStations = new ArrayList<>();
     for(Connection connection: route.getConnections()){
@@ -582,14 +333,6 @@ public class DataBase {
     return routeStations.containsAll(targetStations);
   }
 
-  /**
-   * Verifica se uma rota contém duas estações especificadas.
-   *
-   * @param route      A rota a ser verificada.
-   * @param stationId1 O ID da primeira estação.
-   * @param stationId2 O ID da segunda estação.
-   * @return true se a rota contiver ambas as estações especificadas, caso contrário, false.
-   */
   private boolean routeHasStations(Route route, Integer stationId1, Integer stationId2) {
     List<Station> routeStations = new ArrayList<>();
     for(Connection connection: route.getConnections()){
@@ -601,9 +344,7 @@ public class DataBase {
 
 
   // Relatório Global
-  /**
-   * Gera um relatório global e o salva em um arquivo de texto.
-   */
+  // Relatório Global
   public void generateGlobalReport() {
     try (PrintWriter writer = new PrintWriter("report.txt", "UTF-8")) {
       writer.println("=== Relatório Global ===\n");
@@ -636,10 +377,7 @@ public class DataBase {
     }
   }
 
-  /**
-   * Preenche o banco de dados com dados iniciais.
-   */
-
+  // No arquivo Database.java
   public void populateDatabase() {
     User user1 = new User(1, "João");
     User user2 = new User(2, "Maria");
@@ -655,29 +393,21 @@ public class DataBase {
     Connection connection1 = new Connection(1, station1, station2, schedule1);
     connections.put(1, connection1);
   }
-  /**
-   * Popula o mapa da rede com as estações e conexões do banco de dados.
-   *
-   * @param networkMap O mapa da rede a ser populado.
-   */
-  public void populateNetworkMap(NetworkMap networkMap) throws IOException {
-    populateStations("data/stations.txt");
-    populateConnections("data/connections.txt");
-
-    for (Station station : stations.values()) {
+  public void populateNetworkMap(NetworkMap networkMap) {
+    // Adiciona todas as estações ao mapa da rede
+    for (Station station : this.stations.values()) {
       networkMap.addStation(station);
     }
 
-    for (Connection connection : connections.values()) {
+    // Adiciona todas as conexões ao mapa da rede
+    for (Connection connection : this.connections.values()) {
       networkMap.addConnection(connection);
     }
   }
-  /**
-   * Testa o mapa da rede, exibindo o número total de estações e conexões.
-   */
- public void testNetworkMap() {
+
+  public void testNetworkMap() {
     NetworkMap networkMap = new NetworkMap();
-   // populateNetworkMap(networkMap);
+    populateNetworkMap(networkMap);
 
     EdgeWeightedDigraph graph = networkMap.getTransportNetwork();
     System.out.println("Número total de vértices (estações): " + graph.V());
@@ -685,12 +415,36 @@ public class DataBase {
     System.out.println("Número total de vértices (estações): " + networkMap.getNumberOfStations());
 
   }
-  /**
-   * Preenche as estações a partir de um arquivo de texto.
-   *
-   * @param filename O nome do arquivo de texto contendo os dados das estações.
-   * @throws IOException Se ocorrer um erro de leitura do arquivo.
-   */
+/*
+  public void populateUsers(String filename) throws IOException {
+    // Criando a estrutura RedBlackBST (se já não existir)
+    if (users == null) {
+      users = new RedBlackBST<>();
+    }
+
+    // Lendo o arquivo de texto
+    try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+      String line;
+      while ((line = reader.readLine()) != null) {
+        // Dividindo a linha em partes
+        String[] parts = line.split(", ");
+
+        // Obtendo os valores
+        Integer userId = Integer.parseInt(parts[0]);
+        String userName = parts[1];
+
+        // Criando um novo usuário
+        User user = new User(userId, userName);
+
+        // Inicializando a lista de viagens do usuário como uma nova lista vazia
+        user.setTrips(new ArrayList<>());
+
+        // Adicionando o usuário à RedBlackBST
+        users.put(userId, user);
+      }
+    }
+  }*/
+
   public void populateStations(String filename) throws IOException {
     if (stations == null) {
       stations = new HashMap<>();
@@ -716,9 +470,6 @@ public class DataBase {
     }
   }
 
-  /**
-   * Testa o método populateStations, imprimindo as estações populadas.
-   */
   public void testPopulateStations() {
     try {
       populateStations("data/stations.txt");
@@ -729,12 +480,7 @@ public class DataBase {
       e.printStackTrace();
     }
   }
-  /**
-   * Popula os horários com base em um arquivo de texto.
-   *
-   * @param filename o nome do arquivo de texto contendo as informações dos horários
-   * @throws IOException se ocorrer um erro durante a leitura do arquivo
-   */
+
   public void populateSchedules(String filename) throws IOException {
     if (schedules == null) {
       schedules = new HashMap<>();
@@ -757,9 +503,7 @@ public class DataBase {
       }
     }
   }
-  /**
-   * Testa o método populateSchedules, imprimindo os horários populados.
-   */
+
   public void testPopulateSchedules() {
     try {
       populateSchedules("data/schedules.txt");
@@ -770,12 +514,7 @@ public class DataBase {
       e.printStackTrace();
     }
   }
-  /**
-   * Popula as conexões com base em um arquivo de texto.
-   *
-   * @param filename o nome do arquivo de texto contendo as informações das conexões
-   * @throws IOException se ocorrer um erro durante a leitura do arquivo
-   */
+
   public void populateConnections(String filename) throws IOException {
     // Criando a estrutura HashMap (se já não existir)
     if (connections == null) {
@@ -795,7 +534,6 @@ public class DataBase {
           continue;
         }
 
-
         // Obtendo os valores
         Integer connectionId = Integer.parseInt(parts[0]);
         Station station1 = stations.get(Integer.parseInt(parts[1]));
@@ -810,9 +548,7 @@ public class DataBase {
       }
     }
   }
-  /**
-   * Testa o método populateConnections, imprimindo as conexões populadas.
-   */
+
   public void testPopulateConnections() {
     try {
       // Chame a função para popular as conexões com o nome do arquivo de texto
@@ -827,12 +563,7 @@ public class DataBase {
       e.printStackTrace();
     }
   }
-  /**
-   * Popula as rotas com base em um arquivo de texto.
-   *
-   * @param filename o nome do arquivo de texto contendo as informações das rotas
-   * @throws IOException se ocorrer um erro durante a leitura do arquivo
-   */
+
   public void populateRoutes(String filename) throws IOException {
     if (routes == null) {
       routes = new HashMap<>();
@@ -865,9 +596,7 @@ public class DataBase {
       }
     }
   }
-  /**
-   * Testa o método populateRoutes, imprimindo as rotas populadas.
-   */
+
   public void testPopulateRoutes() {
     try {
       // Chame a função para popular as rotas com o nome do arquivo de texto
@@ -882,12 +611,7 @@ public class DataBase {
       e.printStackTrace();
     }
   }
-  /**
-   * Popula as viagens com base em um arquivo de texto.
-   *
-   * @param filename o nome do arquivo de texto contendo as informações das viagens
-   * @throws IOException se ocorrer um erro durante a leitura do arquivo
-   */
+
   public void populateTrips(String filename) throws IOException {
     if (userTrips == null) {
       userTrips = new RedBlackBST<>();
@@ -925,9 +649,7 @@ public class DataBase {
   }
 
 
-  /**
-   * Testa o método populateTrips, imprimindo as viagens populadas para cada usuário.
-   */
+
   public void testPopulateTrips() {
     try {
       populateTrips("data/trips.txt");
@@ -942,12 +664,7 @@ public class DataBase {
       e.printStackTrace();
     }
   }
-  /**
-   * Popula os usuários com base em um arquivo de texto.
-   *
-   * @param filename o nome do arquivo de texto contendo as informações dos usuários
-   * @throws IOException se ocorrer um erro durante a leitura do arquivo
-   */
+
   public void populateUsers(String filename) throws IOException {
     if (users == null) {
       users = new RedBlackBST<>();
@@ -976,9 +693,7 @@ public class DataBase {
       }
     }
   }
-  /**
-   * Lista todos os usuários e suas viagens.
-   */
+
   public void listAllUsersAndTrips() {
     for (Integer userId : users.keys()) {
       User user = users.get(userId);
@@ -993,9 +708,6 @@ public class DataBase {
       }
     }
   }
-  /**
-   * Testa o método populateUsers, imprimindo os usuários e suas viagens.
-   */
   public void testPopulateUsers() {
     try {
       populateUsers("data/users.txt");
@@ -1017,9 +729,6 @@ public class DataBase {
     }
   }
 
-  /**
-   * Preenche todos os dados do sistema chamando os métodos de população individual.
-   */
   public void populateData() {
     try {
       // Primeiro, preencha os dados que não têm dependências

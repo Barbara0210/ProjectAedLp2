@@ -9,6 +9,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import javafx.scene.paint.Color;
+import java.util.Map;
+import java.util.HashMap;
+import edu.princeton.cs.algs4.DirectedEdge;
 
 public class TransportNetworkApp extends Application {
     private NetworkMap networkMap;
@@ -16,9 +23,60 @@ public class TransportNetworkApp extends Application {
 
     public TransportNetworkApp() {
         this.networkMap = new NetworkMap();
-        this.stations = FXCollections.observableArrayList();
     }
+/*
+    public void drawGraph(Pane pane) {
+        double paneWidth = pane.getWidth();
+        double paneHeight = pane.getHeight();
 
+        // Desenhar vértices
+        for (Station station : networkMap.getStationMap().values()) {
+            Circle circle = new Circle();
+            circle.setCenterX(station.getLatitude() * paneWidth);
+            circle.setCenterY(station.getLongitude() * paneHeight);
+            circle.setRadius(5);
+
+            // Definir cores diferentes para tipos de estação diferentes
+            if (station.getVehicle().equals("Type1")) {
+                circle.setFill(Color.RED);
+            } else if (station.getVehicle().equals("Type2")) {
+                circle.setFill(Color.BLUE);
+            } else {
+                circle.setFill(Color.BLACK);
+            }
+
+            pane.getChildren().add(circle);
+        }
+
+        // Desenhar arestas
+        for (int v = 0; v < networkMap.getTransportNetwork().V(); v++) {
+            for (DirectedEdge edge : networkMap.getTransportNetwork().adj(v)) {
+                int fromStationId = edge.from();
+                int toStationId = edge.to();
+
+                Station fromStation = networkMap.getStationMap().get(fromStationId);
+                Station toStation = networkMap.getStationMap().get(toStationId);
+
+                Line line = new Line();
+                line.setStartX(fromStation.getLatitude() * paneWidth);
+                line.setStartY(fromStation.getLongitude() * paneHeight);
+                line.setEndX(toStation.getLatitude() * paneWidth);
+                line.setEndY(toStation.getLongitude() * paneHeight);
+
+                // Definir cores diferentes para tipos de conexão diferentes
+                if (fromStation.getVehicle().equals("Type1") && toStation.getVehicle().equals("Type1")) {
+                    line.setStroke(Color.RED);
+                } else if (fromStation.getVehicle().equals("Type2") && toStation.getVehicle().equals("Type2")) {
+                    line.setStroke(Color.BLUE);
+                } else {
+                    line.setStroke(Color.GRAY);
+                }
+
+                pane.getChildren().add(line);
+            }
+        }
+    }
+*/
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Transport Network");
@@ -30,9 +88,10 @@ public class TransportNetworkApp extends Application {
         TableColumn<Station, String> nameColumn = new TableColumn<>("Name");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("stationName"));
         TableColumn<Station, String> typeColumn = new TableColumn<>("Type");
-        typeColumn.setCellValueFactory(new PropertyValueFactory<>("stationType"));
+        typeColumn.setCellValueFactory(new PropertyValueFactory<>("vehicle"));
         table.getColumns().addAll(idColumn, nameColumn, typeColumn);
         table.setItems(stations);
+
         TextField idField = new TextField();
         idField.setPromptText("ID da estação");
         TextField nameField = new TextField();
@@ -67,69 +126,10 @@ public class TransportNetworkApp extends Application {
             }
         });
 
-
-
-        VBox layout = new VBox(10, idField, nameField, typeField, latitudeField, longitudeField, addButton);
-        primaryStage.setScene(new Scene(layout, 300, 250));
+        VBox layout = new VBox(10, idField, nameField, typeField, latitudeField, longitudeField, addButton, table);
+        primaryStage.setScene(new Scene(layout, 300, 400));
         primaryStage.show();
     }
-
-
-    /*
-        TabPane tabPane = new TabPane();
-
-        // Tab for Stations
-        Tab stationTab = new Tab("Station");
-        VBox stationLayout = new VBox();
-
-        TableView<Station> stationTable = new TableView<>();
-        ObservableList<Station> stations = FXCollections.observableArrayList();
-        // Here you should fill the station list with the existing data
-        // stations.addAll(...);
-
-        TableColumn<Station, Integer> stationIdCol = new TableColumn<>("ID");
-        stationIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-        TableColumn<Station, String> stationNameCol = new TableColumn<>("Name");
-        stationNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-
-        stationTable.getColumns().add(stationIdCol);
-        stationTable.getColumns().add(stationNameCol);
-        stationTable.setItems(stations);
-
-        stationLayout.getChildren().add(stationTable);
-        stationTab.setContent(stationLayout);
-
-        // Tab for Users
-        Tab userTab = new Tab("User");
-        VBox userLayout = new VBox();
-
-        TableView<User> userTable = new TableView<>();
-        ObservableList<User> users = FXCollections.observableArrayList();
-        // Here you should fill the user list with the existing data
-        // users.addAll(...);
-
-        TableColumn<User, Integer> userIdCol = new TableColumn<>("ID");
-        userIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-        TableColumn<User, String> userNameCol = new TableColumn<>("Name");
-        userNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        TableColumn<User, String> userEmailCol = new TableColumn<>("Email");
-        userEmailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
-
-        userTable.getColumns().add(userIdCol);
-        userTable.getColumns().add(userNameCol);
-        userTable.getColumns().add(userEmailCol);
-        userTable.setItems(users);
-
-        userLayout.getChildren().add(userTable);
-        userTab.setContent(userLayout);
-
-        tabPane.getTabs().add(stationTab);
-        tabPane.getTabs().add(userTab);
-
-        Scene scene = new Scene(tabPane, 800, 600);
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }*/
 
     public static void main(String[] args) {
         launch(args);

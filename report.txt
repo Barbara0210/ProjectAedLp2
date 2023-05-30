@@ -1,12 +1,36 @@
 === Relatório Global ===
 
 --- Lista de Usuários ---
-User ID: 1, User Name: João
-User ID: 2, User Name: Maria
+User ID: 1
+Username: John
+Trips:
+Trip ID: 1, User: John, Route: 1
+Trip ID: 2, User: John, Route: 2
+
+User ID: 2
+Username: Jane
+Trips:
+Trip ID: 3, User: Jane, Route: 1
+
+User ID: 3
+Username: Bob
+Trips:
+Trip ID: 5, User: Bob, Route: 2
+
+User ID: 4
+Username: Ana
+Trips:
+
 
 --- Lista de Estações ---
-Station Id: 1, Station Name: Estação 1
+Station Id: 1, Station Name: Estação 12
 Station Id: 2, Station Name: Estação 2
+Station Id: 3, Station Name: Estação 3
+Station Id: 4, Station Name: Estação 4
+Station Id: 5, Station Name: Estação 4
 
 --- Lista de Conexões ---
-Connection ID: 1, Station 1: Estação 1, Station 2: Estação 2, Schedule: 1
+Connection ID: 1, Station 1: Estação 12, Station 2: Estação 2, Schedule: 1
+Connection ID: 2, Station 1: Estação 2, Station 2: Estação 3, Schedule: 2
+Connection ID: 3, Station 1: Estação 3, Station 2: Estação 4, Schedule: 3
+Connection ID: 4, Station 1: Estação 4, Station 2: Estação 12, Schedule: 4

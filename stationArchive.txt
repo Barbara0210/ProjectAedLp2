@@ -1,2 +1,10 @@
 Station Id: 1, Station Name: estacao 1
 Station Id: 1, Station Name: estacao 1
+Station Id: 5, Station Name: Estação 4
+Station Id: 5, Station Name: Estação 4
+Station Id: 6, Station Name: Estação 4
+Station Id: 6, Station Name: Estação 4
+Station Id: 6, Station Name: Estação 4
+Station Id: 6, Station Name: Estação 4
+Station Id: 6, Station Name: Estação 4
+Station Id: 6, Station Name: Estação 4
